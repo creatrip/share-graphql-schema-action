@@ -1,0 +1,1 @@
+# share-graphql-schema-action
