@@ -2,11 +2,11 @@ name: 'Share GraphQL Schema'
 description: 'Share GraphQL Schema'
 
 inputs:
-  base-server-urls:
-    description: '["https://server-a.example.com/graphql", "https://server-b.example.com/graphql"]'
+  other-server-schema-paths:
+    description: '["./server-a.graphql", "./server-b.graphql"]'
     required: true
-  schema-file-pathname:
-    description: 'schema.graphql Pathname (ex: ./schema.graphql)'
+  current-server-schema-path:
+    description: './schema.graphql'
     required: true
 
 outputs:
