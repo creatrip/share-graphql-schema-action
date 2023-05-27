@@ -33676,7 +33676,7 @@ async function main() {
     const core = __nccwpck_require__(2186);
     const otherServerSchemaPaths = JSON.parse(core.getInput('other-server-schema-paths'));
     const currentServerSchemaPath = core.getInput('current-server-schema-path');
-    const otherServerSchemasSDL = otherServerSchemaPaths.map((schemaPath) => (0, fs_1.readFileSync)(schemaPath, 'utf8'));
+    const otherServerSchemasSDL = otherServerSchemaPaths.map((schemaPath) => JSON.parse((0, fs_1.readFileSync)(schemaPath, 'utf8')).data._service.sdl);
     const currentServerSchemasSDL = (0, fs_1.readFileSync)(currentServerSchemaPath, 'utf8').replace('directive @link(import: [link__Import], url: String!) on SCHEMA', 'directive @link(url: String!, import: [link__Import]) on SCHEMA');
     const schemasSDL = [...otherServerSchemasSDL, currentServerSchemasSDL];
     const schemas = schemasSDL.map((sdl) => (0, graphql_1.buildSchema)(sdl));

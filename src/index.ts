@@ -9,7 +9,7 @@ async function main() {
   const otherServerSchemaPaths: string[] = JSON.parse(core.getInput('other-server-schema-paths'));
   const currentServerSchemaPath: string = core.getInput('current-server-schema-path');
 
-  const otherServerSchemasSDL = otherServerSchemaPaths.map((schemaPath) => readFileSync(schemaPath, 'utf8'));
+  const otherServerSchemasSDL = otherServerSchemaPaths.map((schemaPath) => JSON.parse(readFileSync(schemaPath, 'utf8')).data._service.sdl);
   const currentServerSchemasSDL = readFileSync(currentServerSchemaPath, 'utf8').replace(
     'directive @link(import: [link__Import], url: String!) on SCHEMA',
     'directive @link(url: String!, import: [link__Import]) on SCHEMA',
