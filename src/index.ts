@@ -10,10 +10,12 @@ async function main() {
   const currentServerSchemaPath: string = core.getInput('current-server-schema-path');
 
   const otherServerSchemasSDL = otherServerSchemaPaths.map((schemaPath) => JSON.parse(readFileSync(schemaPath, 'utf8')).data._service.sdl);
-  const currentServerSchemasSDL = readFileSync(currentServerSchemaPath, 'utf8').replace(
-    'directive @link(import: [link__Import], url: String!) on SCHEMA',
-    'directive @link(url: String!, import: [link__Import]) on SCHEMA',
-  );
+  const currentServerSchemasSDL = readFileSync(currentServerSchemaPath, 'utf8')
+    .replace('directive @link(import: [link__Import], url: String!) on SCHEMA', 'directive @link(url: String!, import: [link__Import]) on SCHEMA')
+    .replace(
+      'directive @cacheControl(inheritMaxAge: Boolean, maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | INTERFACE | OBJECT | UNION',
+      'directive @cacheControl(maxAge: Int, scope: CacheControlScope, inheritMaxAge: Boolean) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION',
+    );
 
   const schemasSDL: string[] = [...otherServerSchemasSDL, currentServerSchemasSDL];
   const schemas = schemasSDL.map((sdl) => buildSchema(sdl));

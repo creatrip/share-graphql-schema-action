@@ -33677,7 +33677,9 @@ async function main() {
     const otherServerSchemaPaths = JSON.parse(core.getInput('other-server-schema-paths'));
     const currentServerSchemaPath = core.getInput('current-server-schema-path');
     const otherServerSchemasSDL = otherServerSchemaPaths.map((schemaPath) => JSON.parse((0, fs_1.readFileSync)(schemaPath, 'utf8')).data._service.sdl);
-    const currentServerSchemasSDL = (0, fs_1.readFileSync)(currentServerSchemaPath, 'utf8').replace('directive @link(import: [link__Import], url: String!) on SCHEMA', 'directive @link(url: String!, import: [link__Import]) on SCHEMA');
+    const currentServerSchemasSDL = (0, fs_1.readFileSync)(currentServerSchemaPath, 'utf8')
+        .replace('directive @link(import: [link__Import], url: String!) on SCHEMA', 'directive @link(url: String!, import: [link__Import]) on SCHEMA')
+        .replace('directive @cacheControl(inheritMaxAge: Boolean, maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | INTERFACE | OBJECT | UNION', 'directive @cacheControl(maxAge: Int, scope: CacheControlScope, inheritMaxAge: Boolean) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION');
     const schemasSDL = [...otherServerSchemasSDL, currentServerSchemasSDL];
     const schemas = schemasSDL.map((sdl) => (0, graphql_1.buildSchema)(sdl));
     const mergedSchema = (0, schema_1.mergeSchemas)({ schemas });
